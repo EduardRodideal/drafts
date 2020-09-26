@@ -3,10 +3,10 @@
 }
 
 .xo-font {
-  font-size: 2rem !important;
+  font-size: 1rem !important;
   color: red !important;
-  width: 4.5rem !important;
-  height: 4.5rem !important;
+  width: 3rem !important;
+  height: 3rem !important;
 }
 .margin-table {
   margin-top: 2rem !important;
@@ -17,4 +17,8 @@
 }
 .game-color{
   background-color: green !important;
+}
+.mlr {
+  margin-left: 2rem !important;
+  margin-right: 2rem !important;
 }
