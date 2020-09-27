@@ -315,6 +315,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j + 1] > 12 &&
@@ -329,6 +330,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j - 1] > 12 &&
@@ -343,6 +345,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j + 1] > 12 &&
@@ -357,6 +360,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j - 1] > 12 &&
@@ -498,6 +502,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j + 1] > 12 &&
@@ -512,6 +517,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j - 1] > 12 &&
@@ -526,6 +532,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j + 1] > 12 &&
@@ -540,6 +547,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j - 1] > 12 &&
@@ -683,6 +691,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j + 1] > 12 &&
@@ -697,6 +706,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j - 1] > 12 &&
@@ -711,6 +721,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j + 1] > 12 &&
@@ -725,6 +736,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j - 1] > 12 &&
@@ -871,6 +883,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j + 1] > 12 &&
@@ -885,6 +898,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] < 13 &&
                     tempDLeftState[i][j - 1] > 12 &&
@@ -899,6 +913,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j + 1] > 12 &&
@@ -913,6 +928,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !tempAddForErase.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] < 13 &&
                     tempRightState[i][j - 1] > 12 &&
@@ -1370,6 +1386,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] > 12 &&
                     tempDLeftState[i][j - 1] !== null &&
@@ -1385,6 +1402,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] > 12 && //black piece
                     tempDLeftState[i][j + 1] !== null &&
@@ -1400,6 +1418,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j - 1] !== null &&
@@ -1415,6 +1434,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j + 1] !== null &&
@@ -1551,6 +1571,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] > 12 &&
                     tempDLeftState[i][j - 1] !== null &&
@@ -1566,6 +1587,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] > 12 && //black piece
                     tempDLeftState[i][j + 1] !== null &&
@@ -1581,6 +1603,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j - 1] !== null &&
@@ -1596,6 +1619,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j + 1] !== null &&
@@ -1741,6 +1765,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] > 12 &&
                     tempDLeftState[i][j - 1] !== null &&
@@ -1756,6 +1781,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] > 12 && //black piece
                     tempDLeftState[i][j + 1] !== null &&
@@ -1771,6 +1797,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j - 1] !== null &&
@@ -1786,6 +1813,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j + 1] !== null &&
@@ -1934,6 +1962,7 @@ export const Table = () => {
                 for (let j = tempDLeftState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j - 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null && //null is < 13
                     tempDLeftState[i][j] > 12 &&
                     tempDLeftState[i][j - 1] !== null &&
@@ -1949,6 +1978,7 @@ export const Table = () => {
                 for (let j = 0; j < tempDLeftState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempDLeftState[i][j + 1]) &&
+                    tempDLeftState[i][j] === numberToMove &&
                     tempDLeftState[i][j] !== null &&
                     tempDLeftState[i][j] > 12 && //black piece
                     tempDLeftState[i][j + 1] !== null &&
@@ -1964,6 +1994,7 @@ export const Table = () => {
                 for (let j = tempRightState[i].length - 1; j > 1; j--) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j - 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j - 1] !== null &&
@@ -1979,6 +2010,7 @@ export const Table = () => {
                 for (let j = 0; j < tempRightState[i].length - 2; j++) {
                   if (
                     !addForEraseBlack.includes(tempRightState[i][j + 1]) &&
+                    tempRightState[i][j] === numberToMove &&
                     tempRightState[i][j] !== null && //null is < 13
                     tempRightState[i][j] > 12 && //black piece
                     tempRightState[i][j + 1] !== null &&
