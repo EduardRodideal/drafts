@@ -162,6 +162,8 @@ export const Table = () => {
     //is white move and first click
 
     if (whiteMove) {
+      //if first move and click on a null cell just return
+      if (!startMove && dLeftState[ix][jx] === null) {return}
       // if (whiteMove && !startMove) {
       //search to find out if we have a forced move forward with white pieces leftDiagonal
       for (let i = 0; i < dLeftState.length; i++) {
