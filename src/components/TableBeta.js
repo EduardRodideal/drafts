@@ -457,6 +457,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dLeftState[i][j] === numberToMove &&
+                  !tempAddForErase.includes(dLeftState[i][j+1]) &&
                   jx === j + 2 && //we made the click after one cell
                   dLeftState[i][j + 1] > 12 && //white piece
                   dLeftState[i][j + 1] < 25 && //white piece
@@ -679,6 +680,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dLeftState[i][j] === numberToMove &&
+                  !tempAddForErase.includes(dLeftState[i][j-1]) &&
                   jx === j - 2 && //we made the click after one cell
                   dLeftState[i][j - 1] > 12 && //black piece
                   dLeftState[i][j - 1] < 25 && // black piece
@@ -908,6 +910,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dRightState[i][j] === numberToMove &&
+                  !tempAddForErase.includes(dRightState[i][j+1]) &&
                   dRightState[i][j + 1] > 12 && //black piece
                   dRightState[i][j + 1] < 25 && //black piece
                   dRightState[i][j + 2] === null &&
@@ -1140,6 +1143,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dRightState[i][j] === numberToMove &&
+                  !tempAddForErase.includes(dRightState[i][j-1]) &&
                   dRightState[i][j - 1] > 12 && //black piece
                   dRightState[i][j - 1] < 25 && //black piece
                   dRightState[i][j - 2] === null &&
@@ -1400,7 +1404,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForErase.includes(dLeftState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove;
@@ -1786,7 +1790,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForErase.includes(dLeftState[i][k]) ) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove;
@@ -2203,7 +2207,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForErase.includes(dRightState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[iNullAfterNrToMove][jNullAfterNrToMove] = numberToMove;
@@ -2625,7 +2629,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForErase.includes(dRightState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[iNullAfterNrToMove][jNullAfterNrToMove] = numberToMove;
