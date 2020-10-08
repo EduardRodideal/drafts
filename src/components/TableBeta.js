@@ -457,7 +457,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dLeftState[i][j] === numberToMove &&
-                  !tempAddForErase.includes(dLeftState[i][j+1]) &&
+                  !tempAddForErase.includes(dLeftState[i][j + 1]) &&
                   jx === j + 2 && //we made the click after one cell
                   dLeftState[i][j + 1] > 12 && //white piece
                   dLeftState[i][j + 1] < 25 && //white piece
@@ -469,9 +469,13 @@ export const TableBeta = () => {
                   i === ix &&
                   dLeftState[i][j + 1] > 62) //black queen
               ) {
-                const tempWhiteQueen = i + "-" + (j+2);
+                const tempWhiteQueen = i + "-" + (j + 2);
                 //the white queen appears here
-                if (whiteQueen.includes(tempWhiteQueen) && numberToMove > 0 && numberToMove < 13 ) {
+                if (
+                  whiteQueen.includes(tempWhiteQueen) &&
+                  numberToMove > 0 &&
+                  numberToMove < 13
+                ) {
                   tempDLeftState[i][j + 2] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j + 2] = numberToMove;
@@ -680,7 +684,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dLeftState[i][j] === numberToMove &&
-                  !tempAddForErase.includes(dLeftState[i][j-1]) &&
+                  !tempAddForErase.includes(dLeftState[i][j - 1]) &&
                   jx === j - 2 && //we made the click after one cell
                   dLeftState[i][j - 1] > 12 && //black piece
                   dLeftState[i][j - 1] < 25 && // black piece
@@ -692,9 +696,13 @@ export const TableBeta = () => {
                   i === ix &&
                   dLeftState[i][j + 1] > 62) //black queen
               ) {
-                const tempWhiteQueen = i + "-" + (j-2);
+                const tempWhiteQueen = i + "-" + (j - 2);
                 //the white queen appears here
-                if (whiteQueen.includes(tempWhiteQueen) && numberToMove > 0 && numberToMove < 13 ) {
+                if (
+                  whiteQueen.includes(tempWhiteQueen) &&
+                  numberToMove > 0 &&
+                  numberToMove < 13
+                ) {
                   tempDLeftState[i][j - 2] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j - 2] = numberToMove;
@@ -910,7 +918,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dRightState[i][j] === numberToMove &&
-                  !tempAddForErase.includes(dRightState[i][j+1]) &&
+                  !tempAddForErase.includes(dRightState[i][j + 1]) &&
                   dRightState[i][j + 1] > 12 && //black piece
                   dRightState[i][j + 1] < 25 && //black piece
                   dRightState[i][j + 2] === null &&
@@ -922,10 +930,14 @@ export const TableBeta = () => {
                   ix === iParsed &&
                   jx === jParsed)
               ) {
-                countAddToErase++;               
+                countAddToErase++;
                 const tempWhiteQueen = iParsed + "-" + jParsed;
                 //the white queen appears here
-                if (whiteQueen.includes(tempWhiteQueen) && numberToMove > 0 && numberToMove < 13 ) {
+                if (
+                  whiteQueen.includes(tempWhiteQueen) &&
+                  numberToMove > 0 &&
+                  numberToMove < 13
+                ) {
                   tempDLeftState[iParsed][jParsed] = numberToMove + 50;
                 } else {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
@@ -1143,7 +1155,7 @@ export const TableBeta = () => {
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
                 (dRightState[i][j] === numberToMove &&
-                  !tempAddForErase.includes(dRightState[i][j-1]) &&
+                  !tempAddForErase.includes(dRightState[i][j - 1]) &&
                   dRightState[i][j - 1] > 12 && //black piece
                   dRightState[i][j - 1] < 25 && //black piece
                   dRightState[i][j - 2] === null &&
@@ -1158,7 +1170,11 @@ export const TableBeta = () => {
                 countAddToErase++;
                 const tempWhiteQueen = iParsed + "-" + jParsed;
                 //the white queen appears here
-                if (whiteQueen.includes(tempWhiteQueen) && numberToMove > 0 && numberToMove < 13 ) {
+                if (
+                  whiteQueen.includes(tempWhiteQueen) &&
+                  numberToMove > 0 &&
+                  numberToMove < 13
+                ) {
                   tempDLeftState[iParsed][jParsed] = numberToMove + 50;
                 } else {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
@@ -1404,7 +1420,10 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull && !tempAddForErase.includes(dLeftState[i][k])) {
+                        if (
+                          allCellsAreNull &&
+                          !tempAddForErase.includes(dLeftState[i][k])
+                        ) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove;
@@ -1790,7 +1809,10 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull && !tempAddForErase.includes(dLeftState[i][k]) ) {
+                        if (
+                          allCellsAreNull &&
+                          !tempAddForErase.includes(dLeftState[i][k])
+                        ) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove;
@@ -2207,10 +2229,15 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull && !tempAddForErase.includes(dRightState[i][k])) {
+                        if (
+                          allCellsAreNull &&
+                          !tempAddForErase.includes(dRightState[i][k])
+                        ) {
                           countFinalMove = true;
                           countAddToErase++;
-                          tempDLeftState[iNullAfterNrToMove][jNullAfterNrToMove] = numberToMove;
+                          tempDLeftState[iNullAfterNrToMove][
+                            jNullAfterNrToMove
+                          ] = numberToMove;
                           tempAddForErase.push(
                             tempDLeftState[iAfterNumberToMove][
                               jAfterNumberToMove
@@ -2629,10 +2656,15 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull && !tempAddForErase.includes(dRightState[i][k])) {
+                        if (
+                          allCellsAreNull &&
+                          !tempAddForErase.includes(dRightState[i][k])
+                        ) {
                           countFinalMove = true;
                           countAddToErase++;
-                          tempDLeftState[iNullAfterNrToMove][jNullAfterNrToMove] = numberToMove;
+                          tempDLeftState[iNullAfterNrToMove][
+                            jNullAfterNrToMove
+                          ] = numberToMove;
                           tempAddForErase.push(
                             tempDLeftState[iAfterNumberToMove][
                               jAfterNumberToMove
@@ -3071,9 +3103,13 @@ export const TableBeta = () => {
                 dLeftState[i][j + 1] === null &&
                 i === ix
               ) {
-                const tempWhiteQueen = i + "-" + (j+1);
+                const tempWhiteQueen = i + "-" + (j + 1);
                 //the white queen appears here
-                if (whiteQueen.includes(tempWhiteQueen) && numberToMove > 0 && numberToMove < 13 ) {
+                if (
+                  whiteQueen.includes(tempWhiteQueen) &&
+                  numberToMove > 0 &&
+                  numberToMove < 13
+                ) {
                   tempDLeftState[i][j + 1] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j + 1] = numberToMove;
@@ -3170,9 +3206,13 @@ export const TableBeta = () => {
                 );
                 const iParsed = Number.parseInt(tempConvert[0]);
                 const jParsed = Number.parseInt(tempConvert[1]);
-                const tempWhiteQueen = iParsed + "-" + (jParsed+1);
+                const tempWhiteQueen = iParsed + "-" + (jParsed + 1);
                 //the white queen appears here
-                if (whiteQueen.includes(tempWhiteQueen) && numberToMove > 0 && numberToMove < 13 ) {
+                if (
+                  whiteQueen.includes(tempWhiteQueen) &&
+                  numberToMove > 0 &&
+                  numberToMove < 13
+                ) {
                   tempDLeftState[iParsed][jParsed] = numberToMove + 50;
                 } else {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
@@ -3724,6 +3764,7 @@ export const TableBeta = () => {
               }
               if (
                 (dLeftState[i][j] === numberToMove &&
+                  !tempAddForEraseBlack.includes(dLeftState[i][j + 1]) &&
                   jx === j + 2 && //we made the click after one cell
                   dLeftState[i][j + 1] < 13 &&
                   dLeftState[i][j + 1] > 0 &&
@@ -3736,9 +3777,13 @@ export const TableBeta = () => {
                   dLeftState[i][j + 1] > 50 && //white queen
                   dLeftState[i][j + 1] < 63) //white queen
               ) {
-                const tempBlackQueen = i + "-" + (j+2);
+                const tempBlackQueen = i + "-" + (j + 2);
                 //the white queen appears here
-                if (blackQueen.includes(tempBlackQueen) && numberToMove > 12 && numberToMove < 25 ) {
+                if (
+                  blackQueen.includes(tempBlackQueen) &&
+                  numberToMove > 12 &&
+                  numberToMove < 25
+                ) {
                   tempDLeftState[i][j + 2] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j + 2] = numberToMove;
@@ -3954,6 +3999,7 @@ export const TableBeta = () => {
               }
               if (
                 (dLeftState[i][j] === numberToMove &&
+                  !tempAddForEraseBlack.includes(dLeftState[i][j - 1]) &&
                   jx === j - 2 && //we made the click after one cell
                   dLeftState[i][j - 1] < 13 && //white piece
                   dLeftState[i][j - 1] > 0 && // white piece
@@ -3966,9 +4012,13 @@ export const TableBeta = () => {
                   dLeftState[i][j - 1] > 50 && //white queen
                   dLeftState[i][j - 1] < 63) //white queen
               ) {
-                const tempBlackQueen = i + "-" + (j-2);
+                const tempBlackQueen = i + "-" + (j - 2);
                 //the white queen appears here
-                if (blackQueen.includes(tempBlackQueen) && numberToMove > 12 && numberToMove < 25 ) {
+                if (
+                  blackQueen.includes(tempBlackQueen) &&
+                  numberToMove > 12 &&
+                  numberToMove < 25
+                ) {
                   tempDLeftState[i][j - 2] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j - 2] = numberToMove;
@@ -4193,6 +4243,7 @@ export const TableBeta = () => {
               //
               if (
                 (dRightState[i][j] === numberToMove &&
+                  !tempAddForEraseBlack.includes(dRightState[i][j + 1]) &&
                   dRightState[i][j + 1] < 13 && //white piece
                   dRightState[i][j + 1] > 0 && //white piece
                   dRightState[i][j + 2] === null &&
@@ -4208,7 +4259,11 @@ export const TableBeta = () => {
                 countAddToErase++;
                 const tempBlackQueen = iParsed + "-" + jParsed;
                 //the white queen appears here
-                if (blackQueen.includes(tempBlackQueen) && numberToMove > 12 && numberToMove < 25 ) {
+                if (
+                  blackQueen.includes(tempBlackQueen) &&
+                  numberToMove > 12 &&
+                  numberToMove < 25
+                ) {
                   tempDLeftState[iParsed][jParsed] = numberToMove + 50;
                 } else {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
@@ -4437,6 +4492,7 @@ export const TableBeta = () => {
               //
               if (
                 (dRightState[i][j] === numberToMove &&
+                  !tempAddForEraseBlack.includes(dRightState[i][j - 1]) &&
                   dRightState[i][j - 1] < 13 && //white piece
                   dRightState[i][j - 1] > 0 && //white piece
                   dRightState[i][j - 2] === null &&
@@ -4453,7 +4509,11 @@ export const TableBeta = () => {
                 tempDLeftState[iParsed][jParsed] = numberToMove;
                 const tempBlackQueen = iParsed + "-" + jParsed;
                 //the white queen appears here
-                if (blackQueen.includes(tempBlackQueen) && numberToMove > 12 && numberToMove < 25 ) {
+                if (
+                  blackQueen.includes(tempBlackQueen) &&
+                  numberToMove > 12 &&
+                  numberToMove < 25
+                ) {
                   tempDLeftState[iParsed][jParsed] = numberToMove + 50;
                 } else {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
@@ -4705,7 +4765,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForEraseBlack.includes(dLeftState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove; //move the piece after forced move on the right cell
@@ -5069,7 +5129,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForEraseBlack.includes(dLeftState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove; //move the piece after forced move on the right cell
@@ -5464,7 +5524,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForEraseBlack.includes(dRightState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[iNullAfterNrToMove][
@@ -5866,7 +5926,7 @@ export const TableBeta = () => {
                           }
                         } //end for check if all the cells after the numberToMove and before the cell where we moved are null
                         //all cells are null and the move is possible
-                        if (allCellsAreNull) {
+                        if (allCellsAreNull && !tempAddForEraseBlack.includes(dRightState[i][k])) {
                           countFinalMove = true;
                           countAddToErase++;
                           tempDLeftState[iNullAfterNrToMove][
@@ -6264,9 +6324,7 @@ export const TableBeta = () => {
     //is black move and first click. This block of code don't let a white piece to be activated
     //we activate only black pieces or black queens, if click on another cell the program will just return
     if (
-      (!whiteMove &&        
-        dLeftState[ix][jx] > 12 &&
-        dLeftState[ix][jx] < 25) ||
+      (!whiteMove && dLeftState[ix][jx] > 12 && dLeftState[ix][jx] < 25) ||
       (!whiteMove && dLeftState[ix][jx] > 62)
     ) {
       setNumberToMove(dLeftState[ix][jx]);
@@ -6299,9 +6357,13 @@ export const TableBeta = () => {
                 dLeftState[i][j - 1] === null &&
                 i === ix
               ) {
-                const tempBlackQueen = i + "-" + (j-1);
+                const tempBlackQueen = i + "-" + (j - 1);
                 //the white queen appears here
-                if (blackQueen.includes(tempBlackQueen) && numberToMove > 12 && numberToMove < 25 ) {
+                if (
+                  blackQueen.includes(tempBlackQueen) &&
+                  numberToMove > 12 &&
+                  numberToMove < 25
+                ) {
                   tempDLeftState[i][j - 1] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j - 1] = numberToMove;
@@ -6402,7 +6464,11 @@ export const TableBeta = () => {
                 tempDLeftState[iParsed][jParsed] = numberToMove;
                 const tempBlackQueen = iParsed + "-" + jParsed;
                 //the white queen appears here
-                if (blackQueen.includes(tempBlackQueen) && numberToMove > 12 && numberToMove < 25 ) {
+                if (
+                  blackQueen.includes(tempBlackQueen) &&
+                  numberToMove > 12 &&
+                  numberToMove < 25
+                ) {
                   tempDLeftState[iParsed][jParsed] = numberToMove + 50;
                 } else {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
