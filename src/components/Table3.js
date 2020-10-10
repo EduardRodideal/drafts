@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Table = () => {
+export const Table3 = () => {
   const whiteQueen = ["0-1", "1-3", "2-5", "3-7"];
   const blackQueen = ["3-0", "4-0", "5-0", "6-0"];
 
@@ -90,6 +90,7 @@ export const Table = () => {
     "3-6": "5-1",
     "2-5": "5-2",
   };
+
   const {
     setWhiteMove,
     numberToMove,
@@ -99,24 +100,23 @@ export const Table = () => {
     setStartMove,
     forcedMove,
     setForcedMove,
-    historyToShow,
-    setHistoryToShow,
     history,
     setHistory,
     addForEraseHistory,
     setAddForEraseHistory,
+    addToEraseContext,
+    dLeft,
+    dLeftState,
+    setDLeftState,
+    historyState,
+    setHistoryState,
+    afterHistory,
+    setAfterHistory,
+    indexToContinue,
   } = useContext(GeneralContext);
-  const tempHistory = [...history];
-  const tempAddForEraseHistory = [...addForEraseHistory];
-  const dLeft = [
-    [20, 24],
-    [null, 16, 19, 23],
-    [1, null, null, 15, 18, 22],
-    [9, 5, 2, null, null, 14, 17, 21],
-    [10, 6, 3, null, null, 13],
-    [11, 7, 4, null],
-    [12, 8],
-  ];
+
+  //   const dLeft = historyToShow;
+
   const dRight = [
     [dLeft[4][0], dLeft[3][1], dLeft[2][0]],
     [dLeft[5][0], dLeft[4][1], dLeft[3][2], dLeft[2][1], dLeft[1][0]],
@@ -141,9 +141,15 @@ export const Table = () => {
     [dLeft[5][3], dLeft[4][4], dLeft[3][5], dLeft[2][4], dLeft[1][3]],
     [dLeft[4][5], dLeft[3][6], dLeft[2][5]],
   ];
-  const [dLeftState, setDLeftState] = useState(dLeft);
+
+  //   const [dLeftState, setDLeftState] = useState(dLeft);
   const [dRightState, setDRightState] = useState(dRight);
-  const [addForErase, setAddForErase] = useState([]);
+  const [addForErase, setAddForErase] = useState(addToEraseContext);
+
+  const tempHistory = [...history];
+  const tempAddForEraseHistory = [...addForEraseHistory];
+  const tempHistoryState = [...historyState];
+
   const classes = useStyles();
   //convert from numbers to pieces
   const table = [];
@@ -176,6 +182,76 @@ export const Table = () => {
   }
 
   const handleClick = (ix, jx) => {
+    if (afterHistory) {
+      const tempHistory = [history.slice(0, indexToContinue + 1)];
+      const lastArrayOfHistory = tempHistory[0][indexToContinue];
+      //to make a pure copy
+      const copyLastArrayOfHistory = [
+        [20, 24],
+        [null, 16, 19, 23],
+        [1, null, null, 15, 18, 22],
+        [9, 5, 2, null, null, 14, 17, 21],
+        [10, 6, 3, null, null, 13],
+        [11, 7, 4, null],
+        [12, 8],
+      ];
+      for (let s = 0; s < lastArrayOfHistory.length; s++) {
+        for (let s2 = 0; s2 < lastArrayOfHistory[s].length; s2++) {
+          copyLastArrayOfHistory[s][s2] = lastArrayOfHistory[s][s2];
+        }
+      }
+      tempHistory[0][indexToContinue] = copyLastArrayOfHistory;
+      setHistory(tempHistory[0]);
+      setDRightState([
+        [dLeftState[4][0], dLeftState[3][1], dLeftState[2][0]],
+        [dLeftState[5][0], dLeftState[4][1], dLeftState[3][2], dLeftState[2][1], dLeftState[1][0]],
+        [
+          dLeftState[6][0],
+          dLeftState[5][1],
+          dLeftState[4][2],
+          dLeftState[3][3],
+          dLeftState[2][2],
+          dLeftState[1][1],
+          dLeftState[0][0],
+        ],
+        [
+          dLeftState[6][1],
+          dLeftState[5][2],
+          dLeftState[4][3],
+          dLeftState[3][4],
+          dLeftState[2][3],
+          dLeftState[1][2],
+          dLeftState[0][1],
+        ],
+        [dLeftState[5][3], dLeftState[4][4], dLeftState[3][5], dLeftState[2][4], dLeftState[1][3]],
+        [dLeftState[4][5], dLeftState[3][6], dLeftState[2][5]],
+      ]);
+
+      // const tempHistoryState = [historyState.slice(0, indexToContinue + 1)];
+      // const lastArrayOfHistoryState = tempHistoryState[0][indexToContinue];
+      // const copyLastArrayOfHistoryState = [
+      //   [20, 24],
+      //   [null, 16, 19, 23],
+      //   [1, null, null, 15, 18, 22],
+      //   [9, 5, 2, null, null, 14, 17, 21],
+      //   [10, 6, 3, null, null, 13],
+      //   [11, 7, 4, null],
+      //   [12, 8],
+      // ];
+      // for (let s = 0; s < lastArrayOfHistoryState.length; s++) {
+      //   for (let s2 = 0; s2 < lastArrayOfHistoryState[s].length; s2++) {
+      //     copyLastArrayOfHistoryState[s][s2] = lastArrayOfHistoryState[s][s2];
+      //   }
+      // }
+      // tempHistoryState[0][indexToContinue] = copyLastArrayOfHistoryState;
+      // setHistoryState(tempHistoryState[0]);
+      // setWhiteMove(historyState[indexToContinue][0].whiteMove);
+      setNumberToMove(null);
+      setStartMove(false);
+      setForcedMove(false);
+      setAfterHistory(false);
+      return;
+    }
     //is white move and first click
     if (whiteMove) {
       //if first move and the click is on a null cell just return
@@ -432,13 +508,15 @@ export const Table = () => {
       setStartMove(true);
       return;
     }
+
     //this constants will be used in several blocs
-    let tempDLeftState = dLeftState;
+    let tempDLeftState = [...dLeftState];
     let tempRightState = [];
     let isForcedMove = false;
-    let tempAddForErase = [addForErase];
+    let tempAddForErase = addForErase;
     let countAddToErase = 0;
     let forcedToCheck = forcedMove;
+    let haveNewHistory = false;
     //if forced move and second click
     if (forcedMove && whiteMove) {
       //this is the cell where numberToMove is located
@@ -484,7 +562,6 @@ export const Table = () => {
                 tempDLeftState[i][j] = null;
                 countAddToErase++;
                 tempAddForErase.push(tempDLeftState[i][j + 1]);
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempRightState = [
                   [
                     tempDLeftState[4][0],
@@ -620,11 +697,19 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: false,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
                 setAddForEraseHistory(tempAddForEraseHistory);
-                setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
                 setForcedMove(isForcedMove);
                 setNumberToMove(null);
                 setStartMove(false);
@@ -715,7 +800,6 @@ export const Table = () => {
                 tempDLeftState[i][j] = null;
                 countAddToErase++;
                 tempAddForErase.push(tempDLeftState[i][j - 1]);
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempRightState = [
                   [
                     tempDLeftState[4][0],
@@ -851,11 +935,19 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: false,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
                 setAddForEraseHistory(tempAddForEraseHistory);
-                setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
                 setForcedMove(isForcedMove);
                 setNumberToMove(null);
                 setStartMove(false);
@@ -954,7 +1046,6 @@ export const Table = () => {
                 tempAddForErase.push(
                   tempDLeftState[iParsedErase][jParsedErase]
                 );
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempDLeftState[iSecond][jSecond] = null;
                 tempRightState = [
                   [
@@ -1091,11 +1182,20 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: false,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
                 setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setForcedMove(isForcedMove);
                 setNumberToMove(null);
                 setStartMove(false);
@@ -1195,7 +1295,6 @@ export const Table = () => {
                 tempAddForErase.push(
                   tempDLeftState[iParsedErase][jParsedErase]
                 );
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempDLeftState[iSecond][jSecond] = null;
                 tempRightState = [
                   [
@@ -1332,11 +1431,20 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: false,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
                 setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setForcedMove(isForcedMove);
                 setNumberToMove(null);
                 setStartMove(false);
@@ -1445,7 +1553,6 @@ export const Table = () => {
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove;
                           tempAddForErase.push(tempDLeftState[i][k]);
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[i][j] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -1720,11 +1827,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: false,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -1838,7 +1954,6 @@ export const Table = () => {
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove;
                           tempAddForErase.push(tempDLeftState[i][k]);
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[i][j] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -2113,11 +2228,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: false,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -2268,7 +2392,6 @@ export const Table = () => {
                               jAfterNumberToMove
                             ]
                           );
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[iParsed][jParsed] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -2543,11 +2666,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: false,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -2699,7 +2831,6 @@ export const Table = () => {
                               jAfterNumberToMove
                             ]
                           );
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[iParsed][jParsed] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -2974,11 +3105,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: false,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -3053,19 +3193,68 @@ export const Table = () => {
       return;
     }
 
+    //moves with out eliminating pieces from the table
+    if (
+      whiteMove &&
+      !isForcedMove &&
+      tempAddForErase.length === 0 &&
+      haveNewHistory
+    ) {
+      alert("3186");
+      let copyLeftState = [
+        [20, 24],
+        [null, 16, 19, 23],
+        [1, null, null, 15, 18, 22],
+        [9, 5, 2, null, null, 14, 17, 21],
+        [10, 6, 3, null, null, 13],
+        [11, 7, 4, null],
+        [12, 8],
+      ];
+      for (let s = 0; s < tempDLeftState.length; s++) {
+        for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+          copyLeftState[s][s2] = tempDLeftState[s][s2];
+        }
+      }
+      tempHistory.push(copyLeftState);
+      setHistory(tempHistory);
+    } //end if (whiteMove && !isForcedMove && tempAddForErase.length === 0)
+
     //erase the white pieces after finalize the forced move
     if (whiteMove && !isForcedMove && tempAddForErase.length > 0) {
-      //find the pieces for erase
+      //find the pieces for erase and erase them
       for (let i = 0; i < tempDLeftState.length; i++) {
         for (let j = 0; j < tempDLeftState[i].length; j++) {
           if (tempAddForErase.includes(tempDLeftState[i][j])) {
             tempDLeftState[i][j] = null;
           }
         }
-      }
+      } //end for find the pieces for erase and erase them
+      tempHistoryState.push([
+        {
+          whiteMove: false,
+          numberToMove: null,
+          startMove: false,
+          forcedMove: false,
+        },
+      ]);
+      setHistoryState(tempHistoryState);
       setAddForErase([]);
       setDLeftState(tempDLeftState);
-      tempHistory.push(tempDLeftState);
+      let copyLeftState = [
+        [20, 24],
+        [null, 16, 19, 23],
+        [1, null, null, 15, 18, 22],
+        [9, 5, 2, null, null, 14, 17, 21],
+        [10, 6, 3, null, null, 13],
+        [11, 7, 4, null],
+        [12, 8],
+      ];
+      for (let s = 0; s < tempDLeftState.length; s++) {
+        for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+          copyLeftState[s][s2] = tempDLeftState[s][s2];
+        }
+      }
+      tempHistory.push(copyLeftState);
       setHistory(tempHistory);
       setDRightState([
         [tempDLeftState[4][0], tempDLeftState[3][1], tempDLeftState[2][0]],
@@ -3111,7 +3300,7 @@ export const Table = () => {
     //end erase the white pieces after finalize the forced move
 
     //this constants will be used in several blocs
-    tempDLeftState = dLeftState;
+    tempDLeftState = [...dLeftState];
     tempRightState = [];
     //is white move and second click
     if (whiteMove && startMove) {
@@ -3150,11 +3339,35 @@ export const Table = () => {
                   tempDLeftState[i][j + 1] = numberToMove;
                 }
                 tempDLeftState[i][j] = null;
+                tempHistoryState.push([
+                  {
+                    whiteMove: false,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setDLeftState(tempDLeftState);
-                tempAddForEraseHistory.push(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
-                tempHistory.push(tempDLeftState);
+                haveNewHistory = true;
+                let copyLeftState = [
+                  [20, 24],
+                  [null, 16, 19, 23],
+                  [1, null, null, 15, 18, 22],
+                  [9, 5, 2, null, null, 14, 17, 21],
+                  [10, 6, 3, null, null, 13],
+                  [11, 7, 4, null],
+                  [12, 8],
+                ];
+                for (let s = 0; s < tempDLeftState.length; s++) {
+                  for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                    copyLeftState[s][s2] = tempDLeftState[s][s2];
+                  }
+                }
+                tempHistory.push(copyLeftState);
                 setHistory(tempHistory);
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setNumberToMove(null);
                 setStartMove(false);
                 setWhiteMove(false);
@@ -3214,7 +3427,6 @@ export const Table = () => {
           (dLeftState[ix][jx] < 13 && dLeftState[ix][jx] > 0) ||
           (dLeftState[ix][jx] < 63 && dLeftState[ix][jx] > 50)
         ) {
-          alert("3217");
           setNumberToMove(dLeftState[ix][jx]);
           setStartMove(true);
           return;
@@ -3258,11 +3470,35 @@ export const Table = () => {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
                 }
                 tempDLeftState[iSecond][jSecond] = null;
+                tempHistoryState.push([
+                  {
+                    whiteMove: false,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setDLeftState(tempDLeftState);
-                tempAddForEraseHistory.push(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
-                tempHistory.push(tempDLeftState);
+                haveNewHistory = true;
+                let copyLeftState = [
+                  [20, 24],
+                  [null, 16, 19, 23],
+                  [1, null, null, 15, 18, 22],
+                  [9, 5, 2, null, null, 14, 17, 21],
+                  [10, 6, 3, null, null, 13],
+                  [11, 7, 4, null],
+                  [12, 8],
+                ];
+                for (let s = 0; s < tempDLeftState.length; s++) {
+                  for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                    copyLeftState[s][s2] = tempDLeftState[s][s2];
+                  }
+                }
+                tempHistory.push(copyLeftState);
                 setHistory(tempHistory);
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setNumberToMove(null);
                 setStartMove(false);
                 setWhiteMove(false);
@@ -3361,11 +3597,35 @@ export const Table = () => {
                   if (onlyNullCells && i === ix) {
                     tempDLeftState[ix][jx] = numberToMove;
                     tempDLeftState[iSecond][jSecond] = null;
-                    tempAddForEraseHistory.push(tempAddForErase);
-                    setAddForEraseHistory(tempAddForEraseHistory);
+                    tempHistoryState.push([
+                      {
+                        whiteMove: false,
+                        numberToMove: null,
+                        startMove: false,
+                        forcedMove: false,
+                      },
+                    ]);
+                    setHistoryState(tempHistoryState);
                     setDLeftState(tempDLeftState);
-                    tempHistory.push(tempDLeftState);
+                    haveNewHistory = true;
+                    let copyLeftState = [
+                      [20, 24],
+                      [null, 16, 19, 23],
+                      [1, null, null, 15, 18, 22],
+                      [9, 5, 2, null, null, 14, 17, 21],
+                      [10, 6, 3, null, null, 13],
+                      [11, 7, 4, null],
+                      [12, 8],
+                    ];
+                    for (let s = 0; s < tempDLeftState.length; s++) {
+                      for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                        copyLeftState[s][s2] = tempDLeftState[s][s2];
+                      }
+                    }
+                    tempHistory.push(copyLeftState);
                     setHistory(tempHistory);
+                    tempAddForEraseHistory.push([...tempAddForErase]);
+                    setAddForEraseHistory(tempAddForEraseHistory);
                     setNumberToMove(null);
                     setStartMove(false);
                     setWhiteMove(false);
@@ -3466,11 +3726,35 @@ export const Table = () => {
                 if (onlyNullCells && ixRight === i) {
                   tempDLeftState[ix][jx] = numberToMove;
                   tempDLeftState[iSecond][jSecond] = null;
+                  tempHistoryState.push([
+                    {
+                      whiteMove: false,
+                      numberToMove: null,
+                      startMove: false,
+                      forcedMove: false,
+                    },
+                  ]);
+                  setHistoryState(tempHistoryState);
                   setDLeftState(tempDLeftState);
-                  tempAddForEraseHistory.push(tempAddForErase);
-                  setAddForEraseHistory(tempAddForEraseHistory);
-                  tempHistory.push(tempDLeftState);
+                  haveNewHistory = true;
+                  let copyLeftState = [
+                    [20, 24],
+                    [null, 16, 19, 23],
+                    [1, null, null, 15, 18, 22],
+                    [9, 5, 2, null, null, 14, 17, 21],
+                    [10, 6, 3, null, null, 13],
+                    [11, 7, 4, null],
+                    [12, 8],
+                  ];
+                  for (let s = 0; s < tempDLeftState.length; s++) {
+                    for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                      copyLeftState[s][s2] = tempDLeftState[s][s2];
+                    }
+                  }
+                  tempHistory.push(copyLeftState);
                   setHistory(tempHistory);
+                  tempAddForEraseHistory.push([...tempAddForErase]);
+                  setAddForEraseHistory(tempAddForEraseHistory);
                   setNumberToMove(null);
                   setStartMove(false);
                   setWhiteMove(false);
@@ -3792,9 +4076,10 @@ export const Table = () => {
 
     // what is up was writhen with white forced
     //this constants will be used in several blocs
-    tempDLeftState = dLeftState;
+    tempDLeftState = [...dLeftState];
     tempRightState = [];
     isForcedMove = false;
+    tempAddForErase = addForErase;
     countAddToErase = 0;
     forcedToCheck = forcedMove;
     //what to do if black move and forced move
@@ -3842,7 +4127,6 @@ export const Table = () => {
                 tempDLeftState[i][j] = null;
                 countAddToErase++;
                 tempAddForErase.push(tempDLeftState[i][j + 1]);
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempRightState = [
                   [
                     tempDLeftState[4][0],
@@ -3982,18 +4266,25 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: true,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
                 setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setForcedMove(isForcedMove);
                 isForcedMove
                   ? setNumberToMove(numberToMove)
                   : setNumberToMove(null);
                 isForcedMove ? setStartMove(true) : setStartMove(false);
-                // setNumberToMove(null);
-                // setStartMove(false);
                 setDRightState([
                   [
                     tempDLeftState[4][0],
@@ -4081,7 +4372,6 @@ export const Table = () => {
                 tempDLeftState[i][j] = null;
                 countAddToErase++;
                 tempAddForErase.push(tempDLeftState[i][j - 1]);
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempRightState = [
                   [
                     tempDLeftState[4][0],
@@ -4221,18 +4511,25 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: true,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
                 setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setForcedMove(isForcedMove);
                 isForcedMove
                   ? setNumberToMove(numberToMove)
                   : setNumberToMove(null);
                 isForcedMove ? setStartMove(true) : setStartMove(false);
-                // setNumberToMove(null);
-                // setStartMove(false);
                 setDRightState([
                   [
                     tempDLeftState[4][0],
@@ -4330,7 +4627,6 @@ export const Table = () => {
                 tempAddForErase.push(
                   tempDLeftState[iParsedErase][jParsedErase]
                 );
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempDLeftState[iSecond][jSecond] = null;
                 tempRightState = [
                   [
@@ -4471,18 +4767,25 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: true,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
                 setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setForcedMove(isForcedMove);
                 isForcedMove
                   ? setNumberToMove(numberToMove)
                   : setNumberToMove(null);
                 isForcedMove ? setStartMove(true) : setStartMove(false);
-                // setNumberToMove(null);
-                // setStartMove(false);
                 setDRightState([
                   [
                     tempDLeftState[4][0],
@@ -4584,7 +4887,6 @@ export const Table = () => {
                 tempAddForErase.push(
                   tempDLeftState[iParsedErase][jParsedErase]
                 );
-                tempAddForEraseHistory.push(tempAddForErase);
                 tempDLeftState[iSecond][jSecond] = null;
                 tempRightState = [
                   [
@@ -4725,18 +5027,25 @@ export const Table = () => {
                   }
                 } //rightDiagonal backward
                 ///////////////////check forced Move end
+                tempHistoryState.push([
+                  {
+                    whiteMove: true,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setAddForErase(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
                 setDLeftState(tempDLeftState);
-                tempHistory.push(tempDLeftState);
-                setHistory(tempHistory);
+                haveNewHistory = true;
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setForcedMove(isForcedMove);
                 isForcedMove
                   ? setNumberToMove(numberToMove)
                   : setNumberToMove(null);
                 isForcedMove ? setStartMove(true) : setStartMove(false);
-                // setNumberToMove(null);
-                // setStartMove(false);
                 setDRightState([
                   [
                     tempDLeftState[4][0],
@@ -4840,7 +5149,6 @@ export const Table = () => {
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove; //move the piece after forced move on the right cell
                           tempAddForErase.push(tempDLeftState[i][k]);
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[i][j] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -5093,11 +5401,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: true,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -5211,7 +5528,6 @@ export const Table = () => {
                           countAddToErase++;
                           tempDLeftState[i][z] = numberToMove; //move the piece after forced move on the right cell
                           tempAddForErase.push(tempDLeftState[i][k]);
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[i][j] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -5464,11 +5780,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: true,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -5619,7 +5944,6 @@ export const Table = () => {
                               jAfterNumberToMove
                             ]
                           );
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[iParsed][jParsed] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -5872,11 +6196,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: true,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -6028,7 +6361,6 @@ export const Table = () => {
                               jAfterNumberToMove
                             ]
                           );
-                          tempAddForEraseHistory.push(tempAddForErase);
                           tempDLeftState[iParsed][jParsed] = null; //the queen disappears from the ex cell
                           tempRightState = [
                             [
@@ -6281,11 +6613,20 @@ export const Table = () => {
                             } //end for on each left Diagonal
                           } //end leftDiagonal backward queen4
                           ///////////////////check forced Move end
+                          tempHistoryState.push([
+                            {
+                              whiteMove: true,
+                              numberToMove: null,
+                              startMove: false,
+                              forcedMove: false,
+                            },
+                          ]);
+                          setHistoryState(tempHistoryState);
                           setAddForErase(tempAddForErase);
-                          setAddForEraseHistory(tempAddForEraseHistory);
                           setDLeftState(tempDLeftState);
-                          tempHistory.push(tempDLeftState);
-                          setHistory(tempHistory);
+                          haveNewHistory = true;
+                          tempAddForEraseHistory.push([...tempAddForErase]);
+                          setAddForEraseHistory(tempAddForEraseHistory);
                           setForcedMove(isForcedMove);
                           isForcedMove
                             ? setNumberToMove(numberToMove)
@@ -6359,6 +6700,32 @@ export const Table = () => {
     ) {
       return;
     }
+
+    //moves with out eliminating pieces from the table
+    if (
+      !whiteMove &&
+      !isForcedMove &&
+      tempAddForErase.length === 0 &&
+      haveNewHistory
+    ) {
+      let copyLeftState = [
+        [20, 24],
+        [null, 16, 19, 23],
+        [1, null, null, 15, 18, 22],
+        [9, 5, 2, null, null, 14, 17, 21],
+        [10, 6, 3, null, null, 13],
+        [11, 7, 4, null],
+        [12, 8],
+      ];
+      for (let s = 0; s < tempDLeftState.length; s++) {
+        for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+          copyLeftState[s][s2] = tempDLeftState[s][s2];
+        }
+      }
+      tempHistory.push(copyLeftState);
+      setHistory(tempHistory);
+    } //end if (whiteMove && !isForcedMove && tempAddForErase.length === 0)
+
     //erase the white pieces after finalize the forced move
     if (!whiteMove && !isForcedMove && tempAddForErase.length > 0) {
       //find the pieces for erase
@@ -6369,9 +6736,32 @@ export const Table = () => {
           }
         }
       }
+      tempHistoryState.push([
+        {
+          whiteMove: true,
+          numberToMove: null,
+          startMove: false,
+          forcedMove: false,
+        },
+      ]);
+      setHistoryState(tempHistoryState);
       setAddForErase([]);
       setDLeftState(tempDLeftState);
-      tempHistory.push(tempDLeftState);
+      let copyLeftState = [
+        [20, 24],
+        [null, 16, 19, 23],
+        [1, null, null, 15, 18, 22],
+        [9, 5, 2, null, null, 14, 17, 21],
+        [10, 6, 3, null, null, 13],
+        [11, 7, 4, null],
+        [12, 8],
+      ];
+      for (let s = 0; s < tempDLeftState.length; s++) {
+        for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+          copyLeftState[s][s2] = tempDLeftState[s][s2];
+        }
+      }
+      tempHistory.push(copyLeftState);
       setHistory(tempHistory);
       setDRightState([
         [tempDLeftState[4][0], tempDLeftState[3][1], tempDLeftState[2][0]],
@@ -6427,7 +6817,7 @@ export const Table = () => {
       return;
     }
     //this constants will be used in several blocs
-    tempDLeftState = dLeftState;
+    tempDLeftState = [...dLeftState];
     tempRightState = [];
     //is black move and second click
     if (!whiteMove && startMove) {
@@ -6464,11 +6854,35 @@ export const Table = () => {
                   tempDLeftState[i][j - 1] = numberToMove;
                 }
                 tempDLeftState[i][j] = null;
+                tempHistoryState.push([
+                  {
+                    whiteMove: true,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setDLeftState(tempDLeftState);
-                tempAddForEraseHistory.push(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
-                tempHistory.push(tempDLeftState);
+                haveNewHistory = true;
+                let copyLeftState = [
+                  [20, 24],
+                  [null, 16, 19, 23],
+                  [1, null, null, 15, 18, 22],
+                  [9, 5, 2, null, null, 14, 17, 21],
+                  [10, 6, 3, null, null, 13],
+                  [11, 7, 4, null],
+                  [12, 8],
+                ];
+                for (let s = 0; s < tempDLeftState.length; s++) {
+                  for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                    copyLeftState[s][s2] = tempDLeftState[s][s2];
+                  }
+                }
+                tempHistory.push(copyLeftState);
                 setHistory(tempHistory);
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setNumberToMove(null);
                 setStartMove(false);
                 setWhiteMove(true);
@@ -6573,11 +6987,35 @@ export const Table = () => {
                   tempDLeftState[iParsed][jParsed] = numberToMove;
                 }
                 tempDLeftState[iSecond][jSecond] = null;
+                tempHistoryState.push([
+                  {
+                    whiteMove: true,
+                    numberToMove: null,
+                    startMove: false,
+                    forcedMove: false,
+                  },
+                ]);
+                setHistoryState(tempHistoryState);
                 setDLeftState(tempDLeftState);
-                tempAddForEraseHistory.push(tempAddForErase);
-                setAddForEraseHistory(tempAddForEraseHistory);
-                tempHistory.push(tempDLeftState);
+                haveNewHistory = true;
+                let copyLeftState = [
+                  [20, 24],
+                  [null, 16, 19, 23],
+                  [1, null, null, 15, 18, 22],
+                  [9, 5, 2, null, null, 14, 17, 21],
+                  [10, 6, 3, null, null, 13],
+                  [11, 7, 4, null],
+                  [12, 8],
+                ];
+                for (let s = 0; s < tempDLeftState.length; s++) {
+                  for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                    copyLeftState[s][s2] = tempDLeftState[s][s2];
+                  }
+                }
+                tempHistory.push(copyLeftState);
                 setHistory(tempHistory);
+                tempAddForEraseHistory.push([...tempAddForErase]);
+                setAddForEraseHistory(tempAddForEraseHistory);
                 setNumberToMove(null);
                 setStartMove(false);
                 setWhiteMove(true);
@@ -6674,11 +7112,34 @@ export const Table = () => {
                   if (onlyNullCells && i === ix) {
                     tempDLeftState[ix][jx] = numberToMove;
                     tempDLeftState[iSecond][jSecond] = null;
-                    setDLeftState(tempDLeftState);
-                    tempAddForEraseHistory.push(tempAddForErase);
-                    setAddForEraseHistory(tempAddForEraseHistory);
-                    tempHistory.push(tempDLeftState);
+                    tempHistoryState.push([
+                      {
+                        whiteMove: true,
+                        numberToMove: null,
+                        startMove: false,
+                        forcedMove: false,
+                      },
+                    ]);
+                    setHistoryState(tempHistoryState);
+                    haveNewHistory = true;
+                    let copyLeftState = [
+                      [20, 24],
+                      [null, 16, 19, 23],
+                      [1, null, null, 15, 18, 22],
+                      [9, 5, 2, null, null, 14, 17, 21],
+                      [10, 6, 3, null, null, 13],
+                      [11, 7, 4, null],
+                      [12, 8],
+                    ];
+                    for (let s = 0; s < tempDLeftState.length; s++) {
+                      for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                        copyLeftState[s][s2] = tempDLeftState[s][s2];
+                      }
+                    }
+                    tempHistory.push(copyLeftState);
                     setHistory(tempHistory);
+                    tempAddForEraseHistory.push([...tempAddForErase]);
+                    setAddForEraseHistory(tempAddForEraseHistory);
                     setNumberToMove(null);
                     setStartMove(false);
                     setWhiteMove(true);
@@ -6779,11 +7240,35 @@ export const Table = () => {
                 if (onlyNullCells && ixRight === i) {
                   tempDLeftState[ix][jx] = numberToMove;
                   tempDLeftState[iSecond][jSecond] = null;
+                  tempHistoryState.push([
+                    {
+                      whiteMove: true,
+                      numberToMove: null,
+                      startMove: false,
+                      forcedMove: false,
+                    },
+                  ]);
+                  setHistoryState(tempHistoryState);
                   setDLeftState(tempDLeftState);
-                  tempAddForEraseHistory.push(tempAddForErase);
-                  setAddForEraseHistory(tempAddForEraseHistory);
-                  tempHistory.push(tempDLeftState);
+                  haveNewHistory = true;
+                  let copyLeftState = [
+                    [20, 24],
+                    [null, 16, 19, 23],
+                    [1, null, null, 15, 18, 22],
+                    [9, 5, 2, null, null, 14, 17, 21],
+                    [10, 6, 3, null, null, 13],
+                    [11, 7, 4, null],
+                    [12, 8],
+                  ];
+                  for (let s = 0; s < tempDLeftState.length; s++) {
+                    for (let s2 = 0; s2 < tempDLeftState[s].length; s2++) {
+                      copyLeftState[s][s2] = tempDLeftState[s][s2];
+                    }
+                  }
+                  tempHistory.push(copyLeftState);
                   setHistory(tempHistory);
+                  tempAddForEraseHistory.push([...tempAddForErase]);
+                  setAddForEraseHistory(tempAddForEraseHistory);
                   setNumberToMove(null);
                   setStartMove(false);
                   setWhiteMove(true);
