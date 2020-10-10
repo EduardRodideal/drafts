@@ -527,11 +527,12 @@ export const Table3 = () => {
         //check if we made the forced move forward on the left diagonal11111111111111111111111111111111111111111111111111111111111111white
         for (let i = 0; i < dLeftState.length; i++) {
           if (dLeftState[i].includes(numberToMove)) {
-            for (let j = 0; j < dLeftState[i].length - 1; j++) {
+            for (let j = 0; j < dLeftState[i].length; j++) {
               //find the coordinates of the number to move
               if (dLeftState[i][j] === numberToMove) {
                 iSecond = i;
                 jSecond = j;
+                // alert("535" + i + " " + j);
               }
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
@@ -770,6 +771,7 @@ export const Table3 = () => {
               if (dLeftState[i][j] === numberToMove) {
                 iSecond = i;
                 jSecond = j;
+                // alert("774" + i + " " + j);
               }
               //if we clicked on the numberToMove and then we made a correct forced move
               if (
@@ -3200,7 +3202,6 @@ export const Table3 = () => {
       tempAddForErase.length === 0 &&
       haveNewHistory
     ) {
-      alert("3186");
       let copyLeftState = [
         [20, 24],
         [null, 16, 19, 23],
@@ -3319,6 +3320,7 @@ export const Table3 = () => {
               if (dLeftState[i][j] === numberToMove) {
                 iSecond = i;
                 jSecond = j;
+                // alert("3324" + i + " " + j);
               }
               //if this is our number and the next number is null
               if (
@@ -3570,6 +3572,7 @@ export const Table3 = () => {
                   }
                   iSecond = i;
                   jSecond = j;
+                  // alert("3576" + i + " " + j);
                   let onlyNullCells = true;
                   //if the move was made forward
                   if (j > jx) {
@@ -3699,6 +3702,7 @@ export const Table3 = () => {
                 //coordinates of the numberToMove
                 iSecond = iLeft;
                 jSecond = jLeft;
+                // alert("3706second" + iSecond + " " + jSecond);
                 let onlyNullCells = true;
                 //if the move was made forward
                 if (j > jxRight) {
@@ -4092,11 +4096,12 @@ export const Table3 = () => {
         //check if we made the forced move forward on the left diagonal111111111111111111111111111111111111111111111111black
         for (let i = 0; i < dLeftState.length; i++) {
           if (dLeftState[i].includes(numberToMove)) {
-            for (let j = 0; j < dLeftState[i].length - 1; j++) {
+            for (let j = 0; j < dLeftState[i].length; j++) {
               //find the coordinates of the number to move
               if (dLeftState[i][j] === numberToMove) {
                 iSecond = i;
                 jSecond = j;
+                // alert("4105" + i + " " + j);
               }
               if (
                 (dLeftState[i][j] === numberToMove &&
@@ -4342,6 +4347,7 @@ export const Table3 = () => {
               if (dLeftState[i][j] === numberToMove) {
                 iSecond = i;
                 jSecond = j;
+                // alert("4351" + i + " " + j);
               }
               if (
                 (dLeftState[i][j] === numberToMove &&
@@ -6834,6 +6840,7 @@ export const Table3 = () => {
               if (dLeftState[i][j] === numberToMove) {
                 iSecond = i;
                 jSecond = j;
+                // alert("6844" + i + " " + j);
               }
               //if this is our number and the next number is null
               if (
@@ -7213,6 +7220,7 @@ export const Table3 = () => {
                 //coordinates of the numberToMove
                 iSecond = iLeft;
                 jSecond = jLeft;
+                // alert("7224second" + iSecond + " " + jSecond);
                 let onlyNullCells = true;
                 //if the move was made forward
                 if (j > jxRight) {
