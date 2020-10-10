@@ -3336,6 +3336,7 @@ export const Table3 = () => {
                   numberToMove > 0 &&
                   numberToMove < 13
                 ) {
+                alert("3333 " + i + j);
                   tempDLeftState[i][j + 1] = numberToMove + 50;
                 } else {
                   tempDLeftState[i][j + 1] = numberToMove;
@@ -3460,7 +3461,7 @@ export const Table3 = () => {
                 );
                 const iParsed = Number.parseInt(tempConvert[0]);
                 const jParsed = Number.parseInt(tempConvert[1]);
-                const tempWhiteQueen = iParsed + "-" + (jParsed + 1);
+                const tempWhiteQueen = iParsed + "-" + jParsed;
                 //the white queen appears here
                 if (
                   whiteQueen.includes(tempWhiteQueen) &&
